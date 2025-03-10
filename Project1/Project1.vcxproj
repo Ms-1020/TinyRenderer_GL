@@ -143,11 +143,13 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="2.4.material.vs" />
     <None Include="3.3.shader.fs" />
     <None Include="3.3.shader.vs" />
     <None Include="4.0.shader.fs" />
     <None Include="4.0.shader.vs" />
     <None Include="light.shader.fs" />
+    <None Include="2.4.material.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />

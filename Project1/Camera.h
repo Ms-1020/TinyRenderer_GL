@@ -103,7 +103,7 @@ public:
 		{
 			mPosition += velocity * mRight;
 		}
-		mPosition.y = 0.0f;
+		//mPosition.y = 0.0f;
 	}
 
 	void ProcessMouseMovement(float xOffset, float yOffset, GLboolean constrainPitch = true)

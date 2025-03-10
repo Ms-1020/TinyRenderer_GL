@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="资源文件\shader">
+      <UniqueIdentifier>{c824eab6-252a-430f-bfeb-92d24c8c4ffa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -40,11 +43,27 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="3.3.shader.vs" />
-    <None Include="3.3.shader.fs" />
-    <None Include="4.0.shader.fs" />
-    <None Include="4.0.shader.vs" />
-    <None Include="light.shader.fs" />
+    <None Include="3.3.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="3.3.shader.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="4.0.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="4.0.shader.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="light.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="2.4.material.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="2.4.material.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">
