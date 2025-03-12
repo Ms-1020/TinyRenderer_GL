@@ -16,6 +16,9 @@
     <Filter Include="资源文件\shader">
       <UniqueIdentifier>{c824eab6-252a-430f-bfeb-92d24c8c4ffa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\backpack">
+      <UniqueIdentifier>{d98e92b9-246e-4056-a2ba-e1fbd85acf15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,6 +33,12 @@
     <ClCompile Include="stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -39,6 +48,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -64,6 +79,18 @@
     <None Include="2.4.material.vs">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="2.5.material.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="spotLight.material.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="multipleLight.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="backpack\backpack.mtl">
+      <Filter>资源文件\backpack</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">
@@ -75,5 +102,30 @@
     <Image Include="awesomeface.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="backpack\ao.jpg">
+      <Filter>资源文件\backpack</Filter>
+    </Image>
+    <Image Include="backpack\diffuse.jpg">
+      <Filter>资源文件\backpack</Filter>
+    </Image>
+    <Image Include="backpack\normal.png">
+      <Filter>资源文件\backpack</Filter>
+    </Image>
+    <Image Include="backpack\roughness.jpg">
+      <Filter>资源文件\backpack</Filter>
+    </Image>
+    <Image Include="backpack\specular.jpg">
+      <Filter>资源文件\backpack</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="backpack\backpack.obj">
+      <Filter>资源文件\backpack</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="backpack\source_attribution.txt">
+      <Filter>资源文件\backpack</Filter>
+    </Text>
   </ItemGroup>
 </Project>
