@@ -30,11 +30,12 @@ void Mesh::Draw(const Shader& shader)
 		shader.SetInt(("material." + name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, mTextures[i].id);
 	}
-	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(mVAO);
 	glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void Mesh::SetUpMesh()
@@ -60,7 +61,7 @@ void Mesh::SetUpMesh()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 
 	//¶¥µãÎÆÀí×ø±ê
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 
 	glBindVertexArray(0);

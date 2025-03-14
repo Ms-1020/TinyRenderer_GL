@@ -91,6 +91,12 @@
     <None Include="backpack\backpack.mtl">
       <Filter>资源文件\backpack</Filter>
     </None>
+    <None Include="guitar.shader.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="guitar.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">

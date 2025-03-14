@@ -4,6 +4,7 @@
 #include <glm/matrix.hpp>
 #include <string>
 #include <vector>
+#include <assimp/types.h> 
 
 #include "Shader.h"
 

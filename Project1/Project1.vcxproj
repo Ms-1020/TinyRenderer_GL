@@ -108,6 +108,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +156,8 @@
     <None Include="4.0.shader.fs" />
     <None Include="4.0.shader.vs" />
     <None Include="backpack\backpack.mtl" />
+    <None Include="guitar.shader.fs" />
+    <None Include="guitar.shader.vs" />
     <None Include="light.shader.fs" />
     <None Include="2.4.material.fs" />
     <None Include="multipleLight.shader.fs" />
@@ -170,7 +174,9 @@
     <Image Include="wall.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="backpack\backpack.obj" />
+    <Object Include="backpack\backpack.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <Text Include="backpack\source_attribution.txt" />

@@ -8,8 +8,10 @@
 
 #include "Shader.h"
 #include "Camera.h"
+#include "Model.h"
 #include "stb_image.h"
 #include <vector>
+#include <filesystem>
 
 //setting
 const unsigned int SCR_WIDTH = 800;
@@ -89,9 +91,7 @@ void keyboardCallBack(GLFWwindow* window)
 
 std::vector<glm::vec3> pointLightPositions = {
 	glm::vec3(0.7f,  0.2f,  2.0f),
-	glm::vec3(2.3f, -3.3f, -4.0f),
-	glm::vec3(-4.0f,  2.0f, -12.0f),
-	glm::vec3(0.0f,  0.0f, -3.0f)
+	glm::vec3(2.3f, -3.3f, -4.0f)
 };
 
 int main()
@@ -124,8 +124,8 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
-	Shader lightingShader("2.4.material.vs", "multipleLight.shader.fs");	
-
+	Shader lightingShader("guitar.shader.vs", "guitar.shader.fs");	
+	Model guitar("backpack/backpack.obj");
 	lightingShader.Use();
 
 	while (!glfwWindowShouldClose(window))
@@ -139,7 +139,7 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
+		lightingShader.Use();
 		glm::mat4 view = glm::mat4(1.0f);
 		view = camera.GetViewMatrix();
 
@@ -147,10 +147,37 @@ int main()
 		proj = glm::perspective(glm::radians(camera.mFov), (float)SCR_WIDTH / SCR_HEIGHT, 0.1f, 100.0f);
 
 		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 		lightingShader.SetMat4("projection", proj);
 		lightingShader.SetMat4("view", view);
 		lightingShader.SetMat4("model", model);
 
+		glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+		//平行光
+		lightingShader.SetVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+		lightingShader.SetVec3("dirLight.ambient", lightColor * 0.2f);
+		lightingShader.SetVec3("dirLight.diffuse", lightColor * 0.5f);
+		lightingShader.SetVec3("dirLight.specular", lightColor);
+
+		//点光源
+		lightingShader.SetVec3("pointLights[0].position", pointLightPositions[0]);
+		lightingShader.SetVec3("pointLights[0].ambient", lightColor * 0.05f);
+		lightingShader.SetVec3("pointLights[0].diffuse", lightColor * 0.8f);
+		lightingShader.SetVec3("pointLights[0].specular", lightColor);
+		lightingShader.SetFloat("pointLights[0].constant", 1.0f);
+		lightingShader.SetFloat("pointLights[0].linear", 0.09f);
+		lightingShader.SetFloat("pointLights[0].quadratic", 0.032f);
+
+		lightingShader.SetVec3("pointLights[1].position", pointLightPositions[1]);
+		lightingShader.SetVec3("pointLights[1].ambient", lightColor * 0.05f);
+		lightingShader.SetVec3("pointLights[1].diffuse", lightColor * 0.8f);
+		lightingShader.SetVec3("pointLights[1].specular", lightColor);
+		lightingShader.SetFloat("pointLights[1].constant", 1.0f);
+		lightingShader.SetFloat("pointLights[1].linear", 0.09f);
+		lightingShader.SetFloat("pointLights[1].quadratic", 0.032f);
+
+		guitar.Draw(lightingShader);
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
