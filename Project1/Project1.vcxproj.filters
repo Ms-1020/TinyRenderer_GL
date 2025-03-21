@@ -97,17 +97,23 @@
     <None Include="guitar.shader.fs">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="depth_testing.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="depth_testing.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="framebuffer.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="framebuffer.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="singleColor.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="container.jpg">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="wall.jpg">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="awesomeface.png">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="backpack\ao.jpg">
       <Filter>资源文件\backpack</Filter>
     </Image>
@@ -122,6 +128,15 @@
     </Image>
     <Image Include="backpack\specular.jpg">
       <Filter>资源文件\backpack</Filter>
+    </Image>
+    <Image Include="wall.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="awesomeface.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="container.jpg">
+      <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
