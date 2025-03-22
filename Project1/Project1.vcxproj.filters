@@ -94,6 +94,12 @@
     <None Include="shader\depth_testing.vs">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="shader\envMap.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\envMap.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
     <None Include="shader\framebuffer.fs">
       <Filter>资源文件\shader</Filter>
     </None>
@@ -115,17 +121,21 @@
     <None Include="shader\singleColor.fs">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="shader\skybox.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\skybox.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
     <None Include="shader\spotLight.material.fs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="skybox.fs">
+    <None Include="shader\nanosuit.fs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="skybox.vs" />
-    <None Include="envMap.vs">
+    <None Include="shader\nanosuit.vs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="envMap.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="backpack\ao.jpg">

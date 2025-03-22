@@ -150,8 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="backpack\backpack.mtl" />
-    <None Include="envMap.fs" />
-    <None Include="envMap.vs" />
     <None Include="shader\2.4.material.fs" />
     <None Include="shader\2.4.material.vs" />
     <None Include="shader\2.5.material.fs" />
@@ -161,16 +159,20 @@
     <None Include="shader\4.0.shader.vs" />
     <None Include="shader\depth_testing.fs" />
     <None Include="shader\depth_testing.vs" />
+    <None Include="shader\envMap.fs" />
+    <None Include="shader\envMap.vs" />
     <None Include="shader\framebuffer.fs" />
     <None Include="shader\framebuffer.vs" />
     <None Include="shader\guitar.shader.fs" />
     <None Include="shader\guitar.shader.vs" />
     <None Include="shader\light.shader.fs" />
     <None Include="shader\multipleLight.shader.fs" />
+    <None Include="shader\nanosuit.fs" />
+    <None Include="shader\nanosuit.vs" />
     <None Include="shader\singleColor.fs" />
+    <None Include="shader\skybox.fs" />
+    <None Include="shader\skybox.vs" />
     <None Include="shader\spotLight.material.fs" />
-    <None Include="skybox.fs" />
-    <None Include="skybox.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="backpack\ao.jpg" />

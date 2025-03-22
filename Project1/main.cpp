@@ -314,11 +314,11 @@ int main()
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
 
-	Shader shader("shader/envMap.vs", "shader/envMap.fs");
+	Shader shader("shader/nanosuit.vs", "shader/nanosuit.fs");
 	Shader skyboxShader("shader/skybox.vs", "shader/skybox.fs");
 
 	unsigned int skyboxVAO, skyboxVBO;
-	glGenBuffers(1, &skyboxVBO);
+  	glGenBuffers(1, &skyboxVBO);
 	glGenVertexArrays(1, &skyboxVAO);
 	glBindVertexArray(skyboxVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
@@ -338,10 +338,7 @@ int main()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
-	unsigned int cubeTexture = loadTexture("rsc/container.jpg");
-
-	shader.Use();
-	shader.SetInt("skybox", 0);
+	Model nanoModel("nanosuit/nanosuit.obj");
 
 	std::vector<std::string> textures_faces
 	{
@@ -355,8 +352,8 @@ int main()
 
 	unsigned int skyboxTexture = loadCubeTexture(textures_faces);
 
-	skyboxShader.Use();
-	skyboxShader.SetInt("skybox", 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -371,18 +368,22 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
+		glm::vec3 intensity(1.0f, 1.0f, 1.0f);
+
 		shader.Use();
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 projection = glm::perspective(glm::radians(camera.mFov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
-		shader.SetVec3("cameraPos", camera.mPosition);
-		shader.SetMat4("model", model);
 		shader.SetMat4("view", view);
 		shader.SetMat4("projection", projection);
-		glBindVertexArray(cubeVAO);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		shader.SetMat4("model", model);
+		shader.SetVec3("dirLight.direction", lightDir);
+		shader.SetVec3("dirLight.ambient", intensity * 0.2f);
+		shader.SetVec3("dirLight.diffuse", intensity * 0.5f);
+		shader.SetVec3("dirLight.specular", intensity);
+		nanoModel.Draw(shader);
 		glBindVertexArray(0);
 
 		glDepthFunc(GL_LEQUAL);

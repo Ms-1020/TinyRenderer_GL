@@ -11,10 +11,11 @@ void Mesh::Draw(const Shader& shader)
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
+	unsigned int reflectNr = 1;
 
 	for (unsigned int i = 0; i < mTextures.size(); ++i)
 	{
-		glActiveTexture(GL_TEXTURE0 + i);
+		glActiveTexture(GL_TEXTURE1 + i);
 
 		std::string number;
 		std::string name = mTextures[i].type;
@@ -26,16 +27,18 @@ void Mesh::Draw(const Shader& shader)
 		{
 			number = std::to_string(specularNr++);
 		}
+		else if (name == "texture_reflect")
+		{
+			number = std::to_string(reflectNr++);
+		}
 
-		shader.SetInt(("material." + name + number).c_str(), i);
+		shader.SetInt(("material." + name + number).c_str(), 1 + i);
 		glBindTexture(GL_TEXTURE_2D, mTextures[i].id);
 	}
 
 	glBindVertexArray(mVAO);
 	glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
-	glActiveTexture(GL_TEXTURE0);
 }
 
 void Mesh::SetUpMesh()

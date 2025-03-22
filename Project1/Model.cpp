@@ -81,6 +81,10 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+		std::vector<Texture> reflectMaps = LoadMaterialTexture(material, aiTextureType_AMBIENT, "texture_reflect");
+		textures.insert(textures.end(), reflectMaps.begin(), reflectMaps.end());
+
 		std::vector<Texture> diffuseMaps = LoadMaterialTexture(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
