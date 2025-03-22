@@ -19,6 +19,12 @@
     <Filter Include="资源文件\backpack">
       <UniqueIdentifier>{d98e92b9-246e-4056-a2ba-e1fbd85acf15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\rsc">
+      <UniqueIdentifier>{58303e17-de3b-4f53-b0c2-df44d2e2a81a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\rsc\skybox">
+      <UniqueIdentifier>{c5a1047f-14aa-4cbc-9140-72bd3daead95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,60 +64,68 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="3.3.shader.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="3.3.shader.vs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="4.0.shader.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="4.0.shader.vs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="light.shader.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="2.4.material.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="2.4.material.vs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="2.5.material.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="spotLight.material.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
-    <None Include="multipleLight.shader.fs">
-      <Filter>资源文件\shader</Filter>
-    </None>
     <None Include="backpack\backpack.mtl">
       <Filter>资源文件\backpack</Filter>
     </None>
-    <None Include="guitar.shader.vs">
+    <None Include="shader\2.4.material.fs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="guitar.shader.fs">
+    <None Include="shader\2.4.material.vs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="depth_testing.vs">
+    <None Include="shader\2.5.material.fs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="depth_testing.fs">
+    <None Include="shader\3.3.shader.fs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="framebuffer.fs">
+    <None Include="shader\3.3.shader.vs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="framebuffer.vs">
+    <None Include="shader\4.0.shader.fs">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="singleColor.fs">
+    <None Include="shader\4.0.shader.vs">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="shader\depth_testing.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\depth_testing.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\framebuffer.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\framebuffer.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\guitar.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\guitar.shader.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\light.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\multipleLight.shader.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\singleColor.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\spotLight.material.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="skybox.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="skybox.vs" />
+    <None Include="envMap.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="envMap.fs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="backpack\ao.jpg">
@@ -129,14 +143,50 @@
     <Image Include="backpack\specular.jpg">
       <Filter>资源文件\backpack</Filter>
     </Image>
-    <Image Include="wall.jpg">
-      <Filter>资源文件</Filter>
+    <Image Include="rsc\awesomeface.png">
+      <Filter>资源文件\rsc</Filter>
     </Image>
-    <Image Include="awesomeface.png">
-      <Filter>资源文件</Filter>
+    <Image Include="rsc\blending_transparent_window.png">
+      <Filter>资源文件\rsc</Filter>
     </Image>
-    <Image Include="container.jpg">
-      <Filter>资源文件</Filter>
+    <Image Include="rsc\container.jpg">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\container2.png">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\container2_specular.png">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\grass.png">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\lighting_maps_specular_color.png">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\matrix.jpg">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\wall.jpg">
+      <Filter>资源文件\rsc</Filter>
+    </Image>
+    <Image Include="rsc\skybox\back.jpg">
+      <Filter>资源文件\rsc\skybox</Filter>
+    </Image>
+    <Image Include="rsc\skybox\bottom.jpg">
+      <Filter>资源文件\rsc\skybox</Filter>
+    </Image>
+    <Image Include="rsc\skybox\front.jpg">
+      <Filter>资源文件\rsc\skybox</Filter>
+    </Image>
+    <Image Include="rsc\skybox\left.jpg">
+      <Filter>资源文件\rsc\skybox</Filter>
+    </Image>
+    <Image Include="rsc\skybox\right.jpg">
+      <Filter>资源文件\rsc\skybox</Filter>
+    </Image>
+    <Image Include="rsc\skybox\top.jpg">
+      <Filter>资源文件\rsc\skybox</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
