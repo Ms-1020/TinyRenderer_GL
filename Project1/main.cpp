@@ -199,44 +199,6 @@ float cubeVertices[] = {
 	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
-float transparentVertices[] = {
-	// positions         // texture Coords (swapped y coordinates because texture is flipped upside down)
-	0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
-	0.0f, -0.5f,  0.0f,  0.0f,  1.0f,
-	1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
-
-	0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
-	1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
-	1.0f,  0.5f,  0.0f,  1.0f,  0.0f
-};
-
-float planeVertices[] = {
-	// positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
-	 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-	-5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
-	-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
-
-	 5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-	-5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
-	 5.0f, -0.5f, -5.0f,  2.0f, 2.0f
-};
-
-std::vector<glm::vec3> pointLightPositions = {
-	glm::vec3(0.7f,  0.2f,  2.0f),
-	glm::vec3(2.3f, -3.3f, -4.0f)
-};
-
-float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates. NOTE that this plane is now much smaller and at the top of the screen
-	// positions   // texCoords
-	-0.3f,  1.0f,  0.0f, 1.0f,
-	-0.3f,  0.7f,  0.0f, 0.0f,
-	 0.3f,  0.7f,  1.0f, 0.0f,
-
-	-0.3f,  1.0f,  0.0f, 1.0f,
-	 0.3f,  0.7f,  1.0f, 0.0f,
-	 0.3f,  1.0f,  1.0f, 1.0f
-};
-
 float skyboxVertices[] = {
 	// positions          
 	-1.0f,  1.0f, -1.0f,
@@ -282,6 +244,14 @@ float skyboxVertices[] = {
 	 1.0f, -1.0f,  1.0f
 };
 
+float points[] = 
+{
+	-0.5f,  0.5f, 1.0f, 0.0f, 0.0f, // 左上
+	 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, // 右上
+	 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 右下
+	-0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // 左下
+};
+
 int main()
 {
 	glfwInit();
@@ -313,48 +283,29 @@ int main()
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
-
 	Shader shader("shader/nanosuit.vs", "shader/nanosuit.fs");
-	Shader skyboxShader("shader/skybox.vs", "shader/skybox.fs");
+	Shader normalShader("normalVisibility.vs", "mostBasic.fs", "normalVisibility.gs");
 
-	unsigned int skyboxVAO, skyboxVBO;
-  	glGenBuffers(1, &skyboxVBO);
-	glGenVertexArrays(1, &skyboxVAO);
-	glBindVertexArray(skyboxVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	unsigned VAO, VBO;
+	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	// cube VAO
-	unsigned int cubeVAO, cubeVBO;
-	glGenVertexArrays(1, &cubeVAO);
-	glGenBuffers(1, &cubeVBO);
-	glBindVertexArray(cubeVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	glBindVertexArray(0);
 
-	Model nanoModel("nanosuit/nanosuit.obj");
+	Model nanosuit("nanosuit/nanosuit.obj");
 
-	std::vector<std::string> textures_faces
-	{
-		"right.jpg",
-		"left.jpg",
-		"top.jpg",
-		"bottom.jpg",
-		"front.jpg",
-		"back.jpg"
-	};
-
-	unsigned int skyboxTexture = loadCubeTexture(textures_faces);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-
+	glm::mat4 projection = glm::perspective(glm::radians(camera.mFov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 1.0f, 100.0f);
+	shader.Use();
+	shader.SetMat4("projection", projection);
+	glm::vec3 lightDir(-0.1f, -0.2f, -0.1f);
+	glm::vec3 intensity(1.0f, 1.0f, 1.0f);
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -365,38 +316,31 @@ int main()
 
 		glEnable(GL_DEPTH_TEST);
 
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 lightDir(-0.2f, -1.0f, -0.3f);
-		glm::vec3 intensity(1.0f, 1.0f, 1.0f);
-
-		shader.Use();
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
-		glm::mat4 projection = glm::perspective(glm::radians(camera.mFov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		shader.SetMat4("view", view);
-		shader.SetMat4("projection", projection);
-		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-		shader.SetMat4("model", model);
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+
+		shader.Use();
 		shader.SetVec3("dirLight.direction", lightDir);
-		shader.SetVec3("dirLight.ambient", intensity * 0.2f);
-		shader.SetVec3("dirLight.diffuse", intensity * 0.5f);
+		shader.SetVec3("dirLight.ambient", intensity);
+		shader.SetVec3("dirLight.diffuse", intensity);
 		shader.SetVec3("dirLight.specular", intensity);
-		nanoModel.Draw(shader);
-		glBindVertexArray(0);
+		shader.SetMat4("view", view);
+		shader.SetMat4("model", model);
+		shader.SetFloat("time", static_cast<float>(glfwGetTime()));
 
-		glDepthFunc(GL_LEQUAL);
-		skyboxShader.Use();
-		view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
-		skyboxShader.SetMat4("view", view);
-		skyboxShader.SetMat4("projection", projection);
+		nanosuit.Draw(shader);
 
-		glBindVertexArray(skyboxVAO);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
+		normalShader.Use();
+		normalShader.SetMat4("projection", projection);
+		normalShader.SetMat4("view", view);
+		normalShader.SetMat4("model", model);
 
+		nanosuit.Draw(normalShader);
+		
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}

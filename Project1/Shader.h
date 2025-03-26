@@ -21,7 +21,7 @@ public:
 	unsigned int ID;	//程序ID
 
 	//构造函数，读取着色器
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 	~Shader()
 	{
 		glDeleteProgram(ID);

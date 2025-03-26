@@ -136,6 +136,18 @@
     <None Include="shader\nanosuit.vs">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="mostBasic.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="mostBasic.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="geometryShader.gs" />
+    <None Include="explodeShader.gs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="normalVisibility.vs" />
+    <None Include="normalVisibility.gs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="backpack\ao.jpg">

@@ -150,6 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="backpack\backpack.mtl" />
+    <None Include="explodeShader.gs" />
+    <None Include="geometryShader.gs" />
+    <None Include="mostBasic.fs" />
+    <None Include="mostBasic.vs" />
+    <None Include="normalVisibility.gs" />
+    <None Include="normalVisibility.vs" />
     <None Include="shader\2.4.material.fs" />
     <None Include="shader\2.4.material.vs" />
     <None Include="shader\2.5.material.fs" />

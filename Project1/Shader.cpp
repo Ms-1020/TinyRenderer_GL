@@ -1,25 +1,39 @@
 #include "Shader.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 {
-	std::string vertexCode, fragmentCode;
-	std::ifstream vShaderFile, fShaderFile;
+	std::string vertexCode, fragmentCode, geometryCode;
+	std::ifstream vShaderFile, fShaderFile, gShaderFile;
 	//抛出异常
 	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try
 	{
 		vShaderFile.open(vertexPath);
 		fShaderFile.open(fragmentPath);
+		
 		std::stringstream vShaderStream, fShaderStream;
 		// 读取文件的缓冲内容到数据流中
 		vShaderStream << vShaderFile.rdbuf();
 		fShaderStream << fShaderFile.rdbuf();
+		
 		vShaderFile.close();
 		fShaderFile.close();
 
+
 		vertexCode = vShaderStream.str();
 		fragmentCode = fShaderStream.str();
+
+		if (geometryPath != nullptr)
+		{
+			gShaderFile.open(geometryPath);
+			std::stringstream gShaderStream;
+			gShaderStream << gShaderFile.rdbuf();
+			gShaderFile.close();
+			geometryCode = gShaderStream.str();
+		}
+
 	}
 	catch (std::ifstream::failure e)
 	{
@@ -28,6 +42,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 	const char* vShaderCode = vertexCode.c_str();
 	const char* fShaderCode = fragmentCode.c_str();
+	const char* gShaderCode = geometryCode.c_str();
 
 	unsigned int vertexShader, fragmentShader;
 
@@ -41,14 +56,27 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glCompileShader(fragmentShader);
 	CheckCompileError(Type::FRAGMENT, fragmentShader);
 
+	unsigned int geometryShader;
+	if (geometryPath != nullptr)
+	{
+		const char* gShaderCode = geometryCode.c_str();
+		geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geometryShader, 1, &gShaderCode, NULL);
+		glCompileShader(geometryShader);
+		CheckCompileError(Type::FRAGMENT, geometryShader);
+	}
 	ID = glCreateProgram();
 	glAttachShader(ID, vertexShader);
 	glAttachShader(ID, fragmentShader);
+	if(geometryPath != nullptr)
+		glAttachShader(ID, geometryShader);
 	glLinkProgram(ID);
 	CheckCompileError(Type::PROGRAM, ID);
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	if(geometryPath != nullptr)
+		glDeleteShader(geometryShader);
 }
 
 void Shader::Use()
