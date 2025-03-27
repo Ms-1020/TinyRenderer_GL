@@ -148,6 +148,9 @@
     </None>
     <None Include="normalVisibility.vs" />
     <None Include="normalVisibility.gs" />
+    <None Include="instanced.vs" />
+    <None Include="planetCircle.fs" />
+    <None Include="planetModel.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="backpack\ao.jpg">

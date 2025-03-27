@@ -19,6 +19,11 @@ public:
 		LoadModel(path);
 	}
 	void Draw(const Shader& shader);
+
+	unsigned int GetMeshSize();
+	unsigned int GetMeshVAO(unsigned int index);
+	unsigned int GetMeshIndicesSize(unsigned int index);
+	unsigned int GetTextureLoadedID(unsigned int index);
 private:
 	std::vector<Texture> mTexturesLoaded;
 	std::vector<Mesh> mMeshes;

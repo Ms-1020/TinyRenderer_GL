@@ -8,6 +8,28 @@ void Model::Draw(const Shader& shader)
 	}
 }
 
+unsigned int Model::GetMeshSize()
+{
+	return mMeshes.size();
+}
+
+unsigned int Model::GetMeshVAO(unsigned int index)
+{
+	return mMeshes[index].mVAO;
+}
+
+unsigned int Model::GetMeshIndicesSize(unsigned int index)
+{
+	return mMeshes[index].mIndices.size();
+}
+
+unsigned int Model::GetTextureLoadedID(unsigned int index)
+{
+	if (index >= mTexturesLoaded.size())
+		return 0;
+	return mTexturesLoaded[index].id;
+}
+
 void Model::LoadModel(std::string path)
 {
 	Assimp::Importer importer;

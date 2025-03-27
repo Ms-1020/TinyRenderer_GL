@@ -252,6 +252,18 @@ float points[] =
 	-0.5f, -0.5f, 1.0f, 1.0f, 0.0f  // 左下
 };
 
+float quadVertices[] = 
+{
+	// 位置          // 颜色
+	-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+	 0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+	-0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
+
+	-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+	 0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+	 0.05f,  0.05f,  0.0f, 1.0f, 1.0f
+};
+
 int main()
 {
 	glfwInit();
@@ -283,29 +295,104 @@ int main()
 	// configure global opengl state
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
-	Shader shader("shader/nanosuit.vs", "shader/nanosuit.fs");
-	Shader normalShader("normalVisibility.vs", "mostBasic.fs", "normalVisibility.gs");
 
-	unsigned VAO, VBO;
-	glGenBuffers(1, &VBO);
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glm::vec2 translations[100];
+	//int index = 0;
+	//float offset = 0.1f;
+	//for (int y = -10; y < 10; y += 2)
+	//{
+	//	for (int x = -10; x < 10; x += 2)
+	//	{
+	//		glm::vec2 translation;
+	//		translation.x = (float)x / 10.0f + offset;
+	//		translation.y = (float)y / 10.0f + offset;
+	//		translations[index++] = translation;
+	//	}
+	//}
+	//unsigned int instanceVBO;
+	//glGenBuffers(1, &instanceVBO);
+	//glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * 100, &translations[0], GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	glBindVertexArray(0);
+	//unsigned int quadVAO, quadVBO;
+	//glGenVertexArrays(1, &quadVAO);
+	//glGenBuffers(1, &quadVBO);
+	//glBindVertexArray(quadVAO);
+	//glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	Model nanosuit("nanosuit/nanosuit.obj");
+	//glEnableVertexAttribArray(2);
+	//glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glVertexAttribDivisor(2, 1);
 
-	glm::mat4 projection = glm::perspective(glm::radians(camera.mFov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 1.0f, 100.0f);
-	shader.Use();
-	shader.SetMat4("projection", projection);
-	glm::vec3 lightDir(-0.1f, -0.2f, -0.1f);
-	glm::vec3 intensity(1.0f, 1.0f, 1.0f);
+	Shader rockShader("instanced.vs", "planetCircle.fs");
+	Shader planetShader("planetModel.vs", "planetCircle.fs");
+	Model planet("rsc/planet/planet.obj");
+	Model rock("rsc/rock/rock.obj");
+	
+	unsigned int amount = 100000;
+	std::vector<glm::mat4> modelMatrices(amount);
+	srand(glfwGetTime());
+	float radius = 50.0;
+	float offset = 2.5f;
+
+	for (unsigned int i = 0; i < amount; ++i)
+	{
+		glm::mat4 model = glm::mat4(1.0f);
+		float angle = (float)i / (float)amount * 360.0f;
+		float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+		float x = sin(angle) * radius + displacement;
+		displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+		float y = displacement * 0.4f;
+		displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+		float z = cos(angle) * radius + displacement;
+		model = glm::translate(model, glm::vec3(x, y, z));
+
+		float scale = (rand() % 20) / 100.0f + 0.05;
+		model = glm::scale(model, glm::vec3(scale));
+
+		float rotAngle = (float)(rand() % 360);
+		model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+		modelMatrices[i] = model;
+	}
+
+	unsigned int rockVBO;
+	glGenBuffers(1, &rockVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, rockVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * amount, &modelMatrices[0], GL_STATIC_DRAW);
+
+	for (unsigned int i = 0; i < rock.GetMeshSize(); ++i)
+	{
+		unsigned int VAO = rock.GetMeshVAO(i);
+ 		glBindVertexArray(VAO);
+
+		//顶点属性
+		GLsizei vec4Size = sizeof(glm::vec4);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(1 * vec4Size));
+		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+		glEnableVertexAttribArray(6);
+		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+
+		glVertexAttribDivisor(3, 1);
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+		glVertexAttribDivisor(6, 1);
+
+		glBindVertexArray(0);
+	}
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -318,29 +405,32 @@ int main()
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-
-		shader.Use();
-		shader.SetVec3("dirLight.direction", lightDir);
-		shader.SetVec3("dirLight.ambient", intensity);
-		shader.SetVec3("dirLight.diffuse", intensity);
-		shader.SetVec3("dirLight.specular", intensity);
-		shader.SetMat4("view", view);
-		shader.SetMat4("model", model);
-		shader.SetFloat("time", static_cast<float>(glfwGetTime()));
-
-		nanosuit.Draw(shader);
-
-		normalShader.Use();
-		normalShader.SetMat4("projection", projection);
-		normalShader.SetMat4("view", view);
-		normalShader.SetMat4("model", model);
-
-		nanosuit.Draw(normalShader);
 		
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+		glm::mat4 view = camera.GetViewMatrix();
+		rockShader.Use();
+		rockShader.SetMat4("projection", projection);
+		rockShader.SetMat4("view", view);
+		planetShader.Use();
+		planetShader.SetMat4("projection", projection);
+		planetShader.SetMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, -3.0f, 0.0f));
+		planetShader.SetMat4("model", model);
+		planet.Draw(planetShader);
+
+		rockShader.Use();
+		rockShader.SetInt("material.texture_diffuse1", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, rock.GetTextureLoadedID(0));
+		for (unsigned int i = 0; i < rock.GetMeshSize(); ++i)
+		{
+			glBindVertexArray(rock.GetMeshVAO(i));
+			glDrawElementsInstanced(GL_TRIANGLES, rock.GetMeshIndicesSize(i), GL_UNSIGNED_INT, 0, amount);
+			glBindVertexArray(0);
+		}
+
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
